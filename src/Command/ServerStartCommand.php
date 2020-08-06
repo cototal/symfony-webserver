@@ -77,6 +77,7 @@ class ServerStartCommand extends Command
             $config = new WebServerConfig($project, $input->getOption("remote"));
 
             if (WebServer::STARTED === $server->start($config, $input->getOption('pidfile'))) {
+                $this->pm->statusUpdate($project, WebServer::STARTED);
                 $message = sprintf('Server listening on http://%s', $config->getAddress());
                 if ('' !== $displayAddress = $config->getDisplayAddress()) {
                     $message = sprintf('Server listening on all interfaces, port %s -- see http://%s', $config->getPort(), $displayAddress);
@@ -93,7 +94,6 @@ class ServerStartCommand extends Command
             return 1;
         }
 
-        $this->pm->statusUpdate($project, WebServer::STARTED);
         return 0;
     }
 }

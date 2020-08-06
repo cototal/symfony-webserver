@@ -46,7 +46,6 @@ class ServerStopCommand extends Command
             $server = new WebServer($project);
             $server->stop($input->getOption('pidfile'));
             $io->success('Stopped the web server. ' . $project->displayName());
-            $this->pm->statusUpdate($project, WebServer::STOPPED);
         } catch (\Exception $e) {
             $io->error($e->getMessage());
 
@@ -54,6 +53,7 @@ class ServerStopCommand extends Command
             return 1;
         }
 
+        $this->pm->statusUpdate($project, WebServer::STOPPED);
         return 0;
     }
 }
